@@ -17,7 +17,7 @@ If you are installing this config manually, download **JetBrainsMono Nerd Font**
 Run the bootstrap installer:
 
 ```powershell
-irm https://raw.githubusercontent.com/itsWindi/terminal-rice/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/itsWindi/terminal-rice/master/install.ps1 | iex
 ```
 
 The installer configures PowerShell and WezTerm, backs up existing configurations before replacing them, and can optionally install WezTerm if it is not already present.
