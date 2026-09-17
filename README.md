@@ -50,6 +50,20 @@ to:
 
 See the component READMEs for their individual configuration details.
 
+## Screenshots
+ 
+| Catppuccin Mocha | Dracula |
+| :---: | :---: |
+| ![Catppuccin Mocha](img/catppuchin_mocha.png) | ![Dracula](img/dracula.png) |
+ 
+| Gruvbox | Nord |
+| :---: | :---: |
+| ![Gruvbox](img/gruvbox.png) | ![Nord](img/nord.png) |
+ 
+| Tokyo Night | One Dark |
+| :---: | :---:|
+| ![Tokyo Night](img/tokyo_night.png) | ![One Dark](img/one_dark.png)
+
 ## Components
 
 ### PowerShell
