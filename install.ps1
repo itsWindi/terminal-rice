@@ -24,7 +24,10 @@ $Branch   = "master"
 $ZipUrl   = "https://github.com/$RepoUser/$RepoName/archive/refs/heads/$Branch.zip"
 
 $NerdFontWingetId = "DEVCOM.JetBrainsMonoNerdFont"
-$NerdFontPattern   = "*JetBrains*Nerd*"   # matches installed font registry entries
+# Different Nerd Fonts packagings register under different names — some use the
+# full "Nerd Font" suffix, others the abbreviated "NF" (e.g. "JetBrainsMono NF Medium").
+# Match both so a font already installed some other way is still detected correctly.
+$NerdFontPatterns = @("*JetBrains*Nerd*", "*JetBrainsMono*NF*")
 # ------------------------------------------------------------------------------
 
 function Write-Step  ($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
@@ -59,17 +62,21 @@ function Invoke-Winget {
 }
 
 function Test-NerdFontInstalled {
-    param([string]$Pattern = $NerdFontPattern)
+    param([string[]]$Patterns = $NerdFontPatterns)
 
+    # Fonts can be registered per-user (HKCU — e.g. installed via the "Install for me
+    # only" right-click option, which is what the per-user AppData\...\Fonts path means)
+    # or machine-wide (HKLM), so both locations need checking.
     $fontKeys = @(
         'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts',
         'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts'
     )
     foreach ($key in $fontKeys) {
         if (Test-Path $key) {
-            $match = (Get-ItemProperty -Path $key).PSObject.Properties |
-                Where-Object { $_.Name -like $Pattern }
-            if ($match) { return $true }
+            $names = (Get-ItemProperty -Path $key).PSObject.Properties.Name
+            foreach ($pattern in $Patterns) {
+                if ($names -like $pattern) { return $true }
+            }
         }
     }
     return $false
